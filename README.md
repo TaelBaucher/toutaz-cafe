@@ -102,7 +102,7 @@ Suivez ces étapes pour lancer le projet localement.
 
 ## Licence
 
-Ce projet est privé et confidentiel. Toute distribution ou modification non autorisée est interdite.
+Ce projet est distribué sous la licence [GPL-3.0](LICENSE). Voir le fichier [LICENSE](LICENSE) pour plus d'informations.
 © 2025 Taël Baucher. Tous droits réservés.
 
 ## Contact
