@@ -324,6 +324,17 @@ class Service {
 
       final sheet = excel[sheetName];
 
+      final title =
+          "Ventes ${lastMonth.month.toString().padLeft(2, '0')}/${lastMonth.year.toString().substring(2)}";
+
+      sheet.appendRow([TextCellValue(title)]);
+      sheet.merge(CellIndex.indexByString("A1"), CellIndex.indexByString("C1"),
+          customValue: TextCellValue(title));
+      sheet.cell(CellIndex.indexByString("A1")).cellStyle = CellStyle(
+        horizontalAlign: HorizontalAlign.Center,
+        bold: true,
+      );
+
       sheet.appendRow([
         TextCellValue("Type"),
         TextCellValue("Quantité"),
@@ -347,7 +358,7 @@ class Service {
         TextCellValue("${globalTotal.toStringAsFixed(2)} €")
       ]);
 
-      final totalRowIndex = salesSummary.length + 2;
+      final totalRowIndex = salesSummary.length + 3;
       final CellStyle totalStyle = CellStyle(
         backgroundColorHex: ExcelColor.fromHexString("#FF0000"),
         fontColorHex: ExcelColor.fromHexString("#FFFFFF"),
