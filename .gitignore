@@ -32,6 +32,7 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
+project_optimization_report.md
 
 # Symbolication related
 app.*.symbols

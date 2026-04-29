@@ -123,7 +123,7 @@ class Service {
     if (period == "day") {
       start = DateTime(now.year, now.month, now.day);
     } else if (period == "week") {
-      start = now.subtract(Duration(days: now.weekday - 1));
+      start = DateTime(now.year, now.month, now.day).subtract(Duration(days: now.weekday - 1));
     } else {
       start = DateTime(now.year, now.month, 1);
     }
@@ -282,12 +282,14 @@ class Service {
   // @return void
   // @throw Exception: if no sales are found or if an error occurs during export
    */
-  Future<void> exportSales() async {
+  Future<void> exportSales({bool currentMonth = false}) async {
     try {
       final now = DateTime.now();
-      final lastMonth = DateTime(now.year, now.month - 1, 1);
-      final start = DateTime(lastMonth.year, lastMonth.month, 1);
-      final end = DateTime(lastMonth.year, lastMonth.month + 1, 1);
+      final targetMonth = currentMonth 
+          ? DateTime(now.year, now.month, 1)
+          : DateTime(now.year, now.month - 1, 1);
+      final start = DateTime(targetMonth.year, targetMonth.month, 1);
+      final end = DateTime(targetMonth.year, targetMonth.month + 1, 1);
 
       final snapshot = await _firestore
           .collection('sales')
@@ -296,7 +298,7 @@ class Service {
           .get();
 
       if (snapshot.docs.isEmpty) {
-        throw Exception("Aucune vente trouvé pour le mois précédent");
+        throw Exception("Aucune vente trouvée pour cette période");
       }
 
       final Map<String, Map<String, dynamic>> salesSummary = {};
@@ -316,7 +318,7 @@ class Service {
 
       final excel = Excel.createExcel();
       final sheetName =
-          "Ventes ${lastMonth.month}/${lastMonth.year.toString().substring(2)}";
+          "Ventes ${targetMonth.month}/${targetMonth.year.toString().substring(2)}";
 
       if (excel.sheets.containsKey("Sheet1")) {
         excel.rename("Sheet1", sheetName);
@@ -325,7 +327,7 @@ class Service {
       final sheet = excel[sheetName];
 
       final title =
-          "Ventes ${lastMonth.month.toString().padLeft(2, '0')}/${lastMonth.year.toString().substring(2)}";
+          "Ventes ${targetMonth.month.toString().padLeft(2, '0')}/${targetMonth.year.toString().substring(2)}";
 
       sheet.appendRow([TextCellValue(title)]);
       sheet.merge(CellIndex.indexByString("A1"), CellIndex.indexByString("C1"),
@@ -369,7 +371,7 @@ class Service {
       sheet.cell(CellIndex.indexByString("C$totalRowIndex")).cellStyle =
           totalStyle;
 
-      final fileName = 'ventes_${lastMonth.month}_${lastMonth.year}.xlsx';
+      final fileName = 'ventes_${targetMonth.month}_${targetMonth.year}.xlsx';
 
       var status = await Permission.storage.status;
       if (!status.isGranted) {

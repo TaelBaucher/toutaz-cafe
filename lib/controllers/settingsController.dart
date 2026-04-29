@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:crypto/crypto.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:toutaz_cafe/Models/firestoreResult.dart';
 import 'package:toutaz_cafe/services/service.dart';
@@ -13,20 +15,30 @@ class SettingsController with WidgetsBindingObserver {
     WidgetsBinding.instance.removeObserver(this);
   }
 
+  String _hashPassword(String password) {
+    final bytes = utf8.encode(password);
+    final digest = sha256.convert(bytes);
+    return digest.toString();
+  }
+
   Future<bool> verifyPassword(String input) async {
     final stored = await _service.fetchPassword();
-    return stored != null && stored == input;
+    if (stored == null) return false;
+
+    final inputHash = _hashPassword(input);
+    return stored == inputHash;
   }
 
   Future<FirestoreResult> changePassword(String currentPassword, String newPassword) async {
     bool check = await verifyPassword(currentPassword);
 
     if (!check) {
-      return FirestoreResult(success: false, error: "Mot de passe incorect");
+      return FirestoreResult(success: false, error: "Mot de passe incorrect");
     }
 
     try {
-      await _service.updatePassword(newPassword);
+      final newPasswordHash = _hashPassword(newPassword);
+      await _service.updatePassword(newPasswordHash);
       return FirestoreResult(success: true);
     } catch(e) {
       return FirestoreResult(success: false, error: e.toString());

@@ -57,8 +57,48 @@ class _SalesPageState extends State<SalesPage> {
     });
   }
 
-  void _extractSales() async {
-    final result = await _salesController.exportSales();
+  void _showExtractionDialog() {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                "Quelle période extraire ?",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 20),
+              ListTile(
+                leading: const Icon(Icons.history, color: Colors.deepPurple),
+                title: const Text("Mois précédent"),
+                onTap: () {
+                  Navigator.pop(context);
+                  _executeExtraction(currentMonth: false);
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.calendar_month, color: Colors.deepPurple),
+                title: const Text("Mois en cours"),
+                onTap: () {
+                  Navigator.pop(context);
+                  _executeExtraction(currentMonth: true);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void _executeExtraction({required bool currentMonth}) async {
+    final result = await _salesController.exportSales(currentMonth: currentMonth);
 
     if (!mounted) return;
 
@@ -179,7 +219,7 @@ class _SalesPageState extends State<SalesPage> {
             child: SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: _extractSales,
+                onPressed: _showExtractionDialog,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.deepPurple,
                   foregroundColor: Colors.white,

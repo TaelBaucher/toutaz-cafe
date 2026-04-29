@@ -26,9 +26,9 @@ class SalesController {
     currentSales.dispose();
   }
 
-  Future<FirestoreResult> exportSales() async {
+  Future<FirestoreResult> exportSales({bool currentMonth = false}) async {
     try {
-      await _service.exportSales();
+      await _service.exportSales(currentMonth: currentMonth);
       return FirestoreResult(success: true);
     } catch (e) {
       return FirestoreResult(success: false, error: e.toString());
