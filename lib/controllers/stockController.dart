@@ -2,10 +2,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:toutaz_cafe/Models/StockModel.dart';
 import 'package:toutaz_cafe/Models/firestoreResult.dart';
-import 'package:toutaz_cafe/services/service.dart';
+import 'package:toutaz_cafe/services/stock_service.dart';
 
 class StockController {
-  final Service _service = Service();
+  final StockService _service = StockService();
   final ValueNotifier<Map<String, int>> currentStocks = ValueNotifier({});
   StreamSubscription<StockModel>? _stocksSubscription;
   VoidCallback? onStockUpdated;

@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:toutaz_cafe/Models/firestoreResult.dart';
-import 'package:toutaz_cafe/services/service.dart';
+import 'package:toutaz_cafe/services/settings_service.dart';
 
 class SettingsController with WidgetsBindingObserver {
-  final Service _service = Service();
+  final SettingsService _settingsService = SettingsService();
 
   SettingsController() {
     WidgetsBinding.instance.addObserver(this);
@@ -22,7 +22,7 @@ class SettingsController with WidgetsBindingObserver {
   }
 
   Future<bool> verifyPassword(String input) async {
-    final stored = await _service.fetchPassword();
+    final stored = await _settingsService.fetchPassword();
     if (stored == null) return false;
 
     final inputHash = _hashPassword(input);
@@ -38,7 +38,7 @@ class SettingsController with WidgetsBindingObserver {
 
     try {
       final newPasswordHash = _hashPassword(newPassword);
-      await _service.updatePassword(newPasswordHash);
+      await _settingsService.updatePassword(newPasswordHash);
       return FirestoreResult(success: true);
     } catch(e) {
       return FirestoreResult(success: false, error: e.toString());
@@ -47,7 +47,7 @@ class SettingsController with WidgetsBindingObserver {
 
   Future<FirestoreResult> addProduct(String name, String type, double price) async {
     try {
-      await _service.addProduct(name, type, price);
+      await _settingsService.addProduct(name, type, price);
       return FirestoreResult(success: true);
     } catch (e) {
       return FirestoreResult(success: false, error: e.toString());
@@ -56,7 +56,7 @@ class SettingsController with WidgetsBindingObserver {
 
   Future<FirestoreResult> retireProduct(String name) async {
     try {
-      await _service.retireProduct(name);
+      await _settingsService.retireProduct(name);
       return FirestoreResult(success: true);
     } catch (e) {
       return FirestoreResult(success: false, error: e.toString());
@@ -69,7 +69,7 @@ class SettingsController with WidgetsBindingObserver {
     }
 
     try {
-      await _service.changeStock(name, quantity);
+      await _settingsService.changeStock(name, quantity);
       return FirestoreResult(success: true);
     } catch (e) {
       return FirestoreResult(success: false, error: e.toString());
@@ -82,7 +82,7 @@ class SettingsController with WidgetsBindingObserver {
     }
 
     try {
-      await _service.changePrice(name, price);
+      await _settingsService.changePrice(name, price);
       return FirestoreResult(success: true);
     } catch (e) {
       return FirestoreResult(success: false, error: e.toString());
@@ -95,7 +95,7 @@ class SettingsController with WidgetsBindingObserver {
     }
 
     try {
-      await _service.changeName(name, newName);
+      await _settingsService.changeName(name, newName);
       return FirestoreResult(success: true);
     } catch (e) {
       return FirestoreResult(success: false, error: e.toString());
