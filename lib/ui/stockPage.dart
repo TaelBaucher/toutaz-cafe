@@ -23,9 +23,6 @@ class _StockPageState extends State<StockPage> {
     _stockController = StockController();
     _stockController.startListeningToStocks();
 
-    _stockController.onStockUpdated = () {
-      setState(() {});
-    };
 
     _stockController.currentStocks.addListener(() {
       setState(() {

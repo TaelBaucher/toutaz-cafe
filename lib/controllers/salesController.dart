@@ -10,12 +10,10 @@ class SalesController {
   final ExportService _exportService = ExportService();
   final ValueNotifier<Map<String, double>> currentSales = ValueNotifier({});
   StreamSubscription<SalesModel>? _salesSubscription;
-  VoidCallback? onSalesUpdated;
 
   void startListeningToSales({String period = "day"}) {
     _salesSubscription = _salesService.getSales(period).listen((salesModel) {
       currentSales.value = salesModel.sales;
-      onSalesUpdated?.call();
     });
   }
 

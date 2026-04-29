@@ -19,9 +19,9 @@ class _PurchasePageState extends State<PurchasePage> {
     _stockController = StockController();
     _stockController.startListeningToStocks();
 
-    _stockController.onStockUpdated = () {
+    _stockController.currentStocks.addListener(() {
       setState(() {});
-    };
+    });
   }
 
   @override

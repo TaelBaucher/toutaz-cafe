@@ -8,7 +8,6 @@ class StockController {
   final StockService _service = StockService();
   final ValueNotifier<Map<String, int>> currentStocks = ValueNotifier({});
   StreamSubscription<StockModel>? _stocksSubscription;
-  VoidCallback? onStockUpdated;
 
   Future<void> restockItems(Map<String, int> items) async {
     await _service.restockItems(items);
@@ -26,7 +25,6 @@ class StockController {
   void startListeningToStocks() {
     _stocksSubscription = _service.getStocks().listen((stockModel) {
       currentStocks.value = stockModel.stocks;
-      onStockUpdated?.call();
     });
   }
 

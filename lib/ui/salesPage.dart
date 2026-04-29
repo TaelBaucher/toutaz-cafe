@@ -33,13 +33,12 @@ class _SalesPageState extends State<SalesPage> {
     _salesController = SalesController();
     _salesController.startListeningToSales();
 
-    _salesController.onSalesUpdated = () {
-      setState(() {});
-    };
 
     _salesController.currentSales.addListener(() {
-      sales.clear();
-      sales.addAll(_salesController.currentSales.value);
+      setState(() {
+        sales.clear();
+        sales.addAll(_salesController.currentSales.value);
+      });
     });
   }
 
