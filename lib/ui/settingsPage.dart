@@ -478,21 +478,21 @@ class _SettingsPageState extends State<SettingsPage> {
 
   void _validateSettings() async {
     if (_isAddProduct) {
-      _settingsController.addProduct(_nameController.text, _typeController!,
+      await _settingsController.addProduct(_nameController.text, _typeController!,
           double.parse(_priceController.text));
     } else if (_isRetireProduct) {
-      _settingsController.retireProduct(_nameController.text);
+      await _settingsController.retireProduct(_nameController.text);
     } else if (_isChangeStock) {
-      _settingsController.changeStock(
+      await _settingsController.changeStock(
           _nameController.text, int.parse(_quantityController.text));
     } else if (_isChangePrice) {
-      _settingsController.changePrice(
+      await _settingsController.changePrice(
           _nameController.text, double.parse(_priceController.text));
     } else if (_isChangeName) {
-      _settingsController.changeName(
+      await _settingsController.changeName(
           _nameController.text, _newNameController.text);
     } else if (_isChangePassword) {
-      final result = await _settingsController.changePassword(
+      await _settingsController.changePassword(
           _passwordController.text, _newPasswordController.text);
     }
 

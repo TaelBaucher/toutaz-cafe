@@ -18,10 +18,6 @@ class _PurchasePageState extends State<PurchasePage> {
     super.initState();
     _stockController = StockController();
     _stockController.startListeningToStocks();
-
-    _stockController.currentStocks.addListener(() {
-      setState(() {});
-    });
   }
 
   @override
@@ -66,100 +62,103 @@ class _PurchasePageState extends State<PurchasePage> {
 
   @override
   Widget build(BuildContext context) {
-    final stock = _stockController.currentStocks.value;
-    final items = stock.keys.toList();
-
     return Scaffold(
       appBar: AppBar(title: Text("Commandes")),
-      body: Stack(
-        children: [
-          GridView.count(
-            crossAxisCount: 3,
-            padding: const EdgeInsets.all(8),
-            children: items.map((item) {
-              final isSelected = item == selectedItem;
-              final quantity = stock[item] ?? 0;
+      body: ValueListenableBuilder<Map<String, int>>(
+        valueListenable: _stockController.currentStocks,
+        builder: (context, stock, child) {
+          final items = stock.keys.toList();
+          return Stack(
+            children: [
+              GridView.count(
+                crossAxisCount: 3,
+                padding: const EdgeInsets.all(8),
+                children: items.map((item) {
+                  final isSelected = item == selectedItem;
+                  final quantity = stock[item] ?? 0;
 
-              return GestureDetector(
-                onTap: () => _onItemTapped(item, quantity),
-                child: Card(
-                  color: isSelected ? Colors.deepPurple.shade100 : null,
-                  elevation: isSelected ? 6 : 2,
-                  shape: RoundedRectangleBorder(
-                    side: isSelected
-                        ? BorderSide(color: Colors.deepPurple, width: 2)
-                        : BorderSide.none,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Center(
-                    child: Text(
-                      item,
-                      style: TextStyle(
-                        fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                        color: isSelected ? Colors.deepPurple : Colors.black,
+                  return GestureDetector(
+                    onTap: () => _onItemTapped(item, quantity),
+                    child: Card(
+                      color: isSelected ? Colors.deepPurple.shade100 : null,
+                      elevation: isSelected ? 6 : 2,
+                      shape: RoundedRectangleBorder(
+                        side: isSelected
+                            ? BorderSide(color: Colors.deepPurple, width: 2)
+                            : BorderSide.none,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Center(
+                        child: Text(
+                          item,
+                          style: TextStyle(
+                            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                            color: isSelected ? Colors.deepPurple : Colors.black,
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+
+              if (selectedItem != null)
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: Container(
+                    color: Colors.deepPurple.shade100,
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    child: SafeArea(
+                      top: false,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              IconButton(
+                                onPressed: selectedQuantity > 1
+                                    ? () => setState(() => selectedQuantity--)
+                                    : null,
+                                icon: Icon(Icons.remove),
+                              ),
+                              Text('$selectedQuantity'),
+                              IconButton(
+                                onPressed: (stock[selectedItem] == -1 || selectedQuantity < stock[selectedItem]!)
+                                    ? () => setState(() => selectedQuantity++)
+                                    : null,
+                                icon: Icon(Icons.add),
+                              ),
+                            ],
+                          ),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.deepPurple,
+                              foregroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              elevation: 6,
+                              shadowColor: Colors.deepPurple.withOpacity(0.4),
+                              textStyle: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            onPressed: (selectedQuantity > 0)
+                                ? _addToOrder
+                                : null,
+                            child: Text("Valider"),
+                          )
+                        ],
                       ),
                     ),
                   ),
                 ),
-              );
-            }).toList(),
-          ),
-
-          if (selectedItem != null)
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: 0,
-              child: Container(
-                color: Colors.deepPurple.shade100,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                child: SafeArea(
-                  top: false,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          IconButton(
-                            onPressed: selectedQuantity > 1
-                                ? () => setState(() => selectedQuantity--)
-                                : null,
-                            icon: Icon(Icons.remove),
-                          ),
-                          Text('$selectedQuantity'),
-                          IconButton(
-                            onPressed: (stock[selectedItem] == -1 || selectedQuantity < stock[selectedItem]!)
-                                ? () => setState(() => selectedQuantity++)
-                                : null,
-                            icon: Icon(Icons.add),
-                          ),
-                        ],
-                      ),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.deepPurple,
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          elevation: 6,
-                          shadowColor: Colors.deepPurple.withOpacity(0.4),
-                          textStyle: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        onPressed: (selectedQuantity > 0)
-                            ? _addToOrder
-                            : null,
-                        child: Text("Valider"),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            ),
-        ],
+            ],
+          );
+        },
       ),
     );
   }
