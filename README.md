@@ -14,7 +14,7 @@ Bienvenue sur le dépôt du projet **Tout'az Café**. Ce projet est une applicat
 - [Stack Technique](#stack-technique)
 - [Installation](#installation)
 - [Licence](#licence)
-- [Contact](#contact)
+- [Contacts](#contacts)
 
 ## Description
 
