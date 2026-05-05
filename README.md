@@ -35,7 +35,7 @@ Ce projet vise à offrir une expérience fluide pour la gestion du café. Voici 
 
 | Commandes | Stocks | Bilan | Paramètres |
 |:---:|:---:|:---:|:---:|
-| ![Commandes](path/to/purchase.png) | ![Stocks](path/to/stock.png) | ![Bilan](path/to/sales.png) | ![Paramètres](path/to/settings.png) |
+| ![Commandes](assets/images/commandes.jpeg) | ![Stocks](assets/images/stocks.jpeg) | ![Bilan](assets/images/bilan.jpeg) | ![Paramètres](assets/images/parametres.jpeg) |
 
 ## Stack Technique
 
@@ -107,4 +107,4 @@ Ce projet est distribué sous la licence [GPL-3.0](LICENSE). Voir le fichier [LI
 
 ## Contact
 
-**Taël Baucher** - [Profil GitHub](https://github.com/Taeldev)
+**Taël Baucher** - [Profil GitHub](https://github.com/TaelBaucher)
