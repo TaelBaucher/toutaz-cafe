@@ -1,7 +1,8 @@
 # Tout'az Café
 
-![Banner Placeholder](path/to/banner.png)
-*(Ajouter une bannière)*
+<p align="center">
+<img src="assets/images/banniere.jpeg" width="500">
+</p>
 
 Bienvenue sur le dépôt du projet **Tout'az Café**. Ce projet est une application mobile de gestion de café, développée avec **Flutter**. Elle permet de gérer les commandes, les stocks et de suivre les ventes en temps réel.
 
