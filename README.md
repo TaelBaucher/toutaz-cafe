@@ -104,6 +104,20 @@ Suivez ces étapes pour lancer le projet localement.
 Ce projet est distribué sous la licence [GPL-3.0](LICENSE). Voir le fichier [LICENSE](LICENSE) pour plus d'informations.
 © 2025 Taël Baucher. Tous droits réservés.
 
-## Contact
-
 **Taël Baucher** - [Profil GitHub](https://github.com/TaelBaucher)
+
+## Contacts
+
+Retrouvez toutes les informations de l'association Toutazimut et de son café Toutaz' café ci dessous:
+<p align="center">
+<a href="https://associationtoutazimut.com/">
+    <img src="https://img.shields.io/badge/Website-4C8EDA?style=for-the-badge&logo=google-chrome&logoColor=white" />
+  </a>
+  <a href="https://www.instagram.com/toutazcafe/">
+    <img src="https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white" />
+  </a>
+  <a href="https://www.tiktok.com/@tout_az_cafe">
+    <img src="https://img.shields.io/badge/TikTok-000000?style=for-the-badge&logo=tiktok&logoColor=white" />
+  </a>
+</p>
+
