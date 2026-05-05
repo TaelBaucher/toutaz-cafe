@@ -31,11 +31,9 @@ Ce projet vise à offrir une expérience fluide pour la gestion du café. Voici 
 
 ## Aperçu
 
-*(Ajouter ici des captures d'écran de l'application)*
-
 | Commandes | Stocks | Bilan | Paramètres |
 |:---:|:---:|:---:|:---:|
-| ![Commandes](assets/images/commandes.jpeg) | ![Stocks](assets/images/stocks.jpeg) | ![Bilan](assets/images/bilan.jpeg) | ![Paramètres](assets/images/parametres.jpeg) |
+| <img src="assets/images/commandes.jpeg" height="250"> | <img src="assets/images/stocks.jpeg" height="250"> | <img src="assets/images/bilan.jpeg" height="250"> | <img src="assets/images/parametres.jpeg" height="250"> |
 
 ## Stack Technique
 
