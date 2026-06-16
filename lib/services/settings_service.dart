@@ -17,12 +17,12 @@ class SettingsService {
       throw Exception("Impossible de mettre à jour le mot de passe");
     }
   }
-  Future<void> addProduct(String name, String type, double price) async {
+  Future<void> addProduct(String name, String type, double price, int quantity) async {
     try {
       await _firestore
           .collection("stocks")
           .doc(name)
-          .set({"name": name, "type": type, "price": price, "quantity": 0});
+          .set({"name": name, "type": type, "price": price, "quantity": quantity});
     } catch (e) {
       throw Exception("Impossible d'ajouter le produit suivant: $name");
     }

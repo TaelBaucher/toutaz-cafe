@@ -45,9 +45,9 @@ class SettingsController with WidgetsBindingObserver {
     }
   }
 
-  Future<FirestoreResult> addProduct(String name, String type, double price) async {
+  Future<FirestoreResult> addProduct(String name, String type, double price, int quantity) async {
     try {
-      await _settingsService.addProduct(name, type, price);
+      await _settingsService.addProduct(name.trim(), type, price, quantity);
       return FirestoreResult(success: true);
     } catch (e) {
       return FirestoreResult(success: false, error: e.toString());
@@ -56,7 +56,7 @@ class SettingsController with WidgetsBindingObserver {
 
   Future<FirestoreResult> retireProduct(String name) async {
     try {
-      await _settingsService.retireProduct(name);
+      await _settingsService.retireProduct(name.trim());
       return FirestoreResult(success: true);
     } catch (e) {
       return FirestoreResult(success: false, error: e.toString());
@@ -64,12 +64,12 @@ class SettingsController with WidgetsBindingObserver {
   }
 
   Future<FirestoreResult> changeStock(String name, int quantity) async {
-    if (quantity < 1) {
-      return FirestoreResult(success: false, error: "Quantité inférieure à 1");
+    if (quantity < 0) {
+      return FirestoreResult(success: false, error: "Quantité inférieure à 0");
     }
 
     try {
-      await _settingsService.changeStock(name, quantity);
+      await _settingsService.changeStock(name.trim(), quantity);
       return FirestoreResult(success: true);
     } catch (e) {
       return FirestoreResult(success: false, error: e.toString());
@@ -82,7 +82,7 @@ class SettingsController with WidgetsBindingObserver {
     }
 
     try {
-      await _settingsService.changePrice(name, price);
+      await _settingsService.changePrice(name.trim(), price);
       return FirestoreResult(success: true);
     } catch (e) {
       return FirestoreResult(success: false, error: e.toString());
@@ -90,12 +90,12 @@ class SettingsController with WidgetsBindingObserver {
   }
 
   Future<FirestoreResult> changeName(String name, String newName) async {
-    if (newName.isEmpty) {
+    if (newName.trim().isEmpty) {
       return FirestoreResult(success: false, error: "Nouveau nom vide");
     }
 
     try {
-      await _settingsService.changeName(name, newName);
+      await _settingsService.changeName(name.trim(), newName.trim());
       return FirestoreResult(success: true);
     } catch (e) {
       return FirestoreResult(success: false, error: e.toString());

@@ -14,6 +14,7 @@ class _AddProductFormState extends State<AddProductForm> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _priceController = TextEditingController();
+  final _quantityController = TextEditingController();
   String? _typeController;
   bool _isExpanded = false;
 
@@ -28,6 +29,7 @@ class _AddProductFormState extends State<AddProductForm> {
         _nameController.text,
         _typeController!,
         double.parse(_priceController.text),
+        int.parse(_quantityController.text),
       );
 
       if (!mounted) return;
@@ -40,6 +42,7 @@ class _AddProductFormState extends State<AddProductForm> {
           _isExpanded = false;
           _nameController.clear();
           _priceController.clear();
+          _quantityController.clear();
           _typeController = null;
         });
       } else {
@@ -165,6 +168,20 @@ class _AddProductFormState extends State<AddProductForm> {
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                   ),
                   validator: (val) => (val == null || val.isEmpty) ? "Requis" : null,
+                ),
+                const SizedBox(height: 10),
+                TextFormField(
+                  controller: _quantityController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: "Quantité", prefixIcon: const Icon(Icons.numbers_outlined),
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                  ),
+                  validator: (val) {
+                    if (val == null || val.isEmpty) return "Requis";
+                    if (int.tryParse(val) == null) return "Entier valide requis";
+                    return null;
+                  },
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
