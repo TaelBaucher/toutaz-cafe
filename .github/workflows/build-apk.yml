@@ -1,0 +1,63 @@
+name: Build and Release Flutter APK
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build et Sauvegarde de l'APK
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Téléchargement du code
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Créer le fichier .env
+        env:
+          # On passe le secret de manière sécurisée dans l'environnement de l'étape
+          ENV_FILE_CONTENT: ${{ secrets.ENV_FILE }}
+        run: |
+          # On écrit le contenu dans un fichier .env à la racine du projet
+          echo "$ENV_FILE_CONTENT" > .env
+
+      - name: Créer le fichier google-services.json
+        env:
+          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: echo "$GOOGLE_SERVICES_JSON" > android/app/google-services.json
+
+      # 2. Configuration de Java (Requis pour l'outil de build Android)
+      - name: Configuration de Java (JDK 17)
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17' # Java 17 est idéal pour Gradle 8+
+
+      # 3. Configuration de Flutter
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable' # Récupère la dernière version stable de Flutter (>= 3.27 selon ton pubspec.yaml)
+          cache: true
+
+      # 4. Installation des dépendances Flutter
+      - name: Install dependencies
+        run: flutter pub get
+
+      # 5. Compilation de l'APK Flutter
+      - name: Build de l'APK
+        run: flutter build apk --release --android-skip-build-dependency-validation
+
+      # 6. Sauvegarde du fichier (Artifact)
+      - name: Sauvegarder l'APK généré
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release-apk
+          # Chemin généré par flutter build apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+          retention-days: 14
