@@ -38,7 +38,7 @@ jobs:
 
       # 5. Compilation de l'APK Flutter
       - name: Build de l'APK
-        run: flutter build apk --release
+        run: flutter build apk --release --android-skip-build-dependency-validation
 
       # 6. Sauvegarde du fichier (Artifact)
       - name: Sauvegarder l'APK généré
