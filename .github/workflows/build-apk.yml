@@ -23,7 +23,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
-          java-version: '17' # Java 17 est idéal pour Gradle 8+
+          java-version: '21' # Java 21 est recommandé pour Gradle 9+
 
       # 3. Configuration de Flutter
       - name: Setup Flutter
