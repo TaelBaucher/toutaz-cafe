@@ -18,6 +18,14 @@ jobs:
       - name: Checkout du code
         uses: actions/checkout@v4
 
+      - name: Créer le fichier .env
+        env:
+          # On passe le secret de manière sécurisée dans l'environnement de l'étape
+          ENV_FILE_CONTENT: ${{ secrets.ENV_FILE }}
+        run: |
+          # On écrit le contenu dans un fichier .env à la racine du projet
+          echo "$ENV_FILE_CONTENT" > .env
+
       # 2. Configuration de Java (Requis pour l'outil de build Android)
       - name: Configuration de Java (JDK 17)
         uses: actions/setup-java@v4
